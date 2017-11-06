@@ -5,3 +5,7 @@
 # for the mini - power grammmar
 
 #main
+print("prompt>")
+intput()
+person = input('prompt> python ')
+print('Hello', person)
