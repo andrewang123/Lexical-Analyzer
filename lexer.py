@@ -6,23 +6,25 @@
 import os #check if valid file
 import sys #used to end program
 
-def getInput():
-
-
+#Checks if there is a file that can be opened, ends program if not
+def checkValid():
     inputFile = input("prompt>  python lexer.py ")
 
     #check if the file is valid
     if not os.path.exists(inputFile):
         print("Input File is invalid")
         sys.exit()
-
     print(inputFile)
-    #open file using context manager
-    with open(inputFile, 'r') as file: #read the contents of file
+    return inputFile
+
+def goThrough(inputFile):
+    # open file using context manager dont need to close
+    # closes by itself
+    with open(inputFile, 'r') as file:
         print(file.read())
         fileContents = file.read()
 
-
-
 #main
-getInput()
+inputFile = checkValid()
+goThrough(inputFile)
+
