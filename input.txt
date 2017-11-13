@@ -1,3 +1,5 @@
-a% = 5.5;b# = 3;c% = a% + b#;
-PRINT “The result is”;
+a% = 5.5 ;
+b# = 3 ;
+c% = a% + b# ;
+PRINT “The result is” ;
 PRINT c%

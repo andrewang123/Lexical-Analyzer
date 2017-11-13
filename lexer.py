@@ -3,6 +3,7 @@
 #Nov 5th 2017
 #Lexical Analyzer, the purpose of this program is to create a lexical analyzer
 #for the mini - power grammar
+
 import os
 import sys
 import re
@@ -24,15 +25,43 @@ def goThrough(inputFile):
     # open file using context manager dont need to close
     # closes by itself
     with open(inputFile, 'r') as file:
-
-        #print(file.read())
-        fileContents = file.readline()
-        ouputTokens(fileContents)
+        for line in file:
+            #print(file.read())
+            #fileContents = file.readline()
+            ouputTokens(line)
 
 #Passes each line of the file and processes it
 def ouputTokens(lineProcess):
-    print("Hello There")
     print(lineProcess)
+    #should work for any string starting with letter
+    #followed by any combination of number and letter
+
+#read char by char!!!!
+    matchID = re.search('[a-z](([a-z]*)|([0-9]*))[$|#|%]', lineProcess)
+    #matchType = re.search('[$|#|%]', lineProcess)
+    name = "Andrew"
+    print(name[0])
+    #match
+    if matchID:
+        print("ID    ", end="")
+        #print(re.search('[a-z]', lineProcess))
+        print(matchID.group())
+        #lastChar =
+        '''
+        if (matchType == "$"):
+            print("STRING")
+        elif (matchType == "#"):
+            print("INTEGER")
+        elif (matchType == "#"):
+            print("REAL")
+        '''
+
+    #if re.search():
+
+    '''
+    if a - z then ID
+    '''
+
     sys.exit()
 
 #main
