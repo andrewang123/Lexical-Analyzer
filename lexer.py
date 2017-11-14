@@ -28,39 +28,79 @@ def goThrough(inputFile):
         for line in file:
             #print(file.read())
             #fileContents = file.readline()
-            ouputTokens(line)
+            outputTokens(line)
 
 #Passes each line of the file and processes it
-def ouputTokens(lineProcess):
+def outputTokens(lineProcess):
+    lenOfString = len(lineProcess)
+    print(lenOfString)
+
     print(lineProcess)
+
+    potentialToken = ""
+    tokens = [] #create a list of tokens
+    tokenIndex = 0
+    for x in range(0, lenOfString-1): #check char by char
+    #for char in lineProcess:
+        print(lineProcess[x])
+        if(lineProcess[x] != " "):
+            potentialToken += lineProcess[x]
+            # check if there is a capital
+            if (x == lenOfString - 2):
+                tokens.append(potentialToken)
+                tokenIndex += 1
+                # change potentialToken to empty
+                potentialToken = ""
+        else:
+            #check if it is a valid string
+            # add it to the list
+            tokens.append(potentialToken)
+            tokenIndex += 1
+            # change potentialToken to empty
+            potentialToken = ""
+
+    #print(lineProcess[lenOfString-2])
+    print(tokens)
+
+    #Check for errors
+    for token in tokens:
+        #print(token)
+        if (token == "="):
+            print("ASSIGN")
+        elif (token == ";"):
+            print("SEMICOLON")
+        elif (re.search('[a-z](([a-z]*)|([0-9]*))[$|#|%]', token)): #first character is lowercase letter
+            print("ID    ", end="")
+            print(token[:-1], "    ", end="") #everything except for the last
+            if(token.endswith("$")):
+                print("STRING")
+            elif(token.endswith("#")):
+                print("INTEGER")
+            elif(token.endswith("%")):
+                print("REAL")
+        elif (re.search('([-|+]?)[0-9]([0-9]*)',token)): # num const
+                print("jelo")
+                #((-|+)?)[0-9]([0-9]*).([0-9]*)
+        elif (re.search('[0-9]+',token)): # int-const
+                print("Smello")
+
+
+        #if there are any string left in the list produce an error
+
     #should work for any string starting with letter
     #followed by any combination of number and letter
 
 #read char by char!!!!
-    matchID = re.search('[a-z](([a-z]*)|([0-9]*))[$|#|%]', lineProcess)
+    #matchID = re.search('[a-z](([a-z]*)|([0-9]*))[$|#|%]', lineProcess)
     #matchType = re.search('[$|#|%]', lineProcess)
-    name = "Andrew"
-    print(name[0])
+
     #match
-    if matchID:
-        print("ID    ", end="")
+    #if matchID:
+    #    print("ID    ", end="")
         #print(re.search('[a-z]', lineProcess))
-        print(matchID.group())
+    #    print(matchID.group())
         #lastChar =
-        '''
-        if (matchType == "$"):
-            print("STRING")
-        elif (matchType == "#"):
-            print("INTEGER")
-        elif (matchType == "#"):
-            print("REAL")
-        '''
 
-    #if re.search():
-
-    '''
-    if a - z then ID
-    '''
 
     sys.exit()
 
