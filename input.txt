@@ -1,4 +1,4 @@
-a% = 5 ;
+a% = 5.5 ;
 b# = 3 ;
 c% = a% + b# ;
 PRINT “The result is” ;

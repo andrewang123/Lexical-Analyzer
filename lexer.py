@@ -33,16 +33,16 @@ def goThrough(inputFile):
 #Passes each line of the file and processes it
 def outputTokens(lineProcess):
     lenOfString = len(lineProcess)
-    print(lenOfString)
+    #print(lenOfString)
 
-    print(lineProcess)
+    #print(lineProcess)
 
     potentialToken = ""
     tokens = [] #create a list of tokens
     tokenIndex = 0
     for x in range(0, lenOfString-1): #check char by char
     #for char in lineProcess:
-        print(lineProcess[x])
+        #print(lineProcess[x])
         if(lineProcess[x] != " "):
             potentialToken += lineProcess[x]
             # check if there is a capital
@@ -78,11 +78,34 @@ def outputTokens(lineProcess):
                 print("INTEGER")
             elif(token.endswith("%")):
                 print("REAL")
-        elif (re.search('([-|+]?)[0-9]([0-9]*)',token)): # num const
-                print("jelo")
+        elif (re.search('([-|+]?)[0-9].([0-9]*)',token)): # real const
+            print("REAL_CONST", end="  ")
+            print(token)
                 #((-|+)?)[0-9]([0-9]*).([0-9]*)
         elif (re.search('[0-9]+',token)): # int-const
-                print("Smello")
+            print("INT_CONST", end="  ")
+            print(token)
+        elif (token == '+' ):
+            print("PLUS")
+        elif (token == '-'):
+            print("MINUS")
+        elif (token == '*'):
+            print("TIMES")
+        elif (token == '/'):
+            print("DIVIDE")
+        elif (token == "PRINT"):
+            print("PRINT", end="")
+        elif (token.startswith("'")): #beginning and end are ""
+            print("STRING") # For loop here keep printing until endswith "
+
+        elif (token == '('):
+            print("LEFT_PAREN")
+        elif (token == ')'):
+            print("RIGHT_PAREN")
+        #elif (token )
+            #token.endswith("'")
+        #^
+
 
 
         #if there are any string left in the list produce an error
@@ -102,7 +125,7 @@ def outputTokens(lineProcess):
         #lastChar =
 
 
-    sys.exit()
+    #sys.exit()
 
 #main
 inputFile = checkValid()
