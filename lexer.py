@@ -40,24 +40,36 @@ def outputTokens(lineProcess):
     potentialToken = ""
     tokens = [] #create a list of tokens
     tokenIndex = 0
+    isString = False;
+    seenQuotation = 0
     for x in range(0, lenOfString-1): #check char by char
     #for char in lineProcess:
         #print(lineProcess[x])
         if(lineProcess[x] != " "):
+            if(lineProcess[x] == "\""):
+                isString = True
+                seenQuotation += 1
+                if (seenQuotation == 2):
+                    isString = False
             potentialToken += lineProcess[x]
             # check if there is a capital
+
+            #at the end
             if (x == lenOfString - 2):
                 tokens.append(potentialToken)
                 tokenIndex += 1
                 # change potentialToken to empty
                 potentialToken = ""
-        else:
-            #check if it is a valid string
-            # add it to the list
-            tokens.append(potentialToken)
-            tokenIndex += 1
-            # change potentialToken to empty
-            potentialToken = ""
+        else: # There is a space
+            if (not(isString)): #if not a string than erase and get ready for next token
+                #check if it is a valid string
+                # add it to the list
+                tokens.append(potentialToken)
+                tokenIndex += 1
+                # change potentialToken to empty
+                potentialToken = ""
+            else:
+                potentialToken += lineProcess[x] #add a space if it is a string
 
     #print(lineProcess[lenOfString-2])
     print(tokens)
@@ -106,6 +118,7 @@ def outputTokens(lineProcess):
             #token.endswith("'")
         #^
 
+    #MAKE PRINT WORK "The , result, is", '
 
 
         #if there are any string left in the list produce an error

@@ -3,9 +3,9 @@ price% = 1.75 ;
 subtotal% = cookies# * price% ;
 tax% = subtotal% * 0.101 ;
 total% = subtotal% + tax% ;
-PRINT "the subtotal is " ;
+PRINT "the subtotal is "" ;
 PRINT subtotal% ;
-PRINT "the tax is " ;
+PRINT "the tax is "" ;
 PRINT tax% ;
-PRINT "total to pay is " ;
+PRINT "total to pay is "" ;
 PRINT total%
