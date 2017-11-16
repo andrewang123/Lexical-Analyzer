@@ -80,7 +80,7 @@ def outputTokens(lineProcess):
         #print(token)
         if (token == "="):
             print("ASSIGN")
-        elif (token == ";"):
+        elif (token == ";\n" or token == ";"):
             print("SEMICOLON")
         elif (re.search('[a-z](([a-z]*)|([0-9]*))[$|#|%]', token)): #first character is lowercase letter
             print("ID    ", end="")
@@ -91,13 +91,13 @@ def outputTokens(lineProcess):
                 print("INTEGER")
             elif(token.endswith("%")):
                 print("REAL")
-        elif (re.search('([-|+]?)[0-9].([0-9]*)',token)): # real const
+        elif (re.search('[0-9][0-9]*',token)): # int-const
+            print("INT_CONST", end="  ")
+            print(token)
+        elif (re.search('([-|+]?)[0-9]([0-9])* .([0-9]*)',token)): # real const
             print("REAL_CONST", end="  ")
             print(token)
                 #((-|+)?)[0-9]([0-9]*).([0-9]*)
-        elif (re.search('[0-9]+',token)): # int-const
-            print("INT_CONST", end="  ")
-            print(token)
         elif (token == '+' ):
             print("PLUS")
         elif (token == '-'):
@@ -109,7 +109,7 @@ def outputTokens(lineProcess):
         elif (token == "PRINT"):
             print("PRINT")
         elif (" " in token): #token contains a space
-            print("STRING", end="     ") # For loop here keep printing until endswith "
+            print("STRING:", end="     ") # For loop here keep printing until endswith "
             print(token)
         elif (token == '('):
             print("LEFT_PAREN")
