@@ -21,17 +21,19 @@ def checkValid():
 
 #Go through line by line in the file
 #inputFile refers to the string of the input file
-def goThrough(inputFile):
+def goThroughLine(inputFile):
     # open file using context manager dont need to close
     # closes by itself
+    totalNumTokens = 0
     with open(inputFile, 'r') as file:
         for line in file:
             #print(file.read())
             #fileContents = file.readline()
-            outputTokens(line)
+            totalNumTokens += createTokens(line)
+        print(totalNumTokens)
 
 #Passes each line of the file and processes it
-def outputTokens(lineProcess):
+def createTokens(lineProcess):
     lenOfString = len(lineProcess)
     #print(lenOfString)
 
@@ -39,9 +41,9 @@ def outputTokens(lineProcess):
 
     potentialToken = ""
     tokens = [] #create a list of tokens
-    tokenIndex = 0
     isString = False;
     seenQuotation = 0
+    totalTokens = 0
     for x in range(0, lenOfString): #check char by char
     #for char in lineProcess:
         #print(lineProcess[x])
@@ -58,7 +60,7 @@ def outputTokens(lineProcess):
             #at the end
             if (x == lenOfString - 1):
                 tokens.append(potentialToken)
-                tokenIndex += 1
+                totalTokens += 1
                 # change potentialToken to empty
                 potentialToken = ""
         else: # There is a space
@@ -66,7 +68,7 @@ def outputTokens(lineProcess):
                 #check if it is a valid string
                 # add it to the list
                 tokens.append(potentialToken)
-                tokenIndex += 1
+                totalTokens += 1
                 # change potentialToken to empty
                 potentialToken = ""
             else:
@@ -74,7 +76,10 @@ def outputTokens(lineProcess):
 
     #print(lineProcess[lenOfString-2])
     print(tokens)
+    checkSyntax(tokens)
+    return totalTokens
 
+def checkSyntax(tokens):
     #Check for errors
     for token in tokens:
         #print(token)
@@ -91,13 +96,13 @@ def outputTokens(lineProcess):
                 print("INTEGER")
             elif(token.endswith("%")):
                 print("REAL")
-        elif (re.search('[0-9][0-9]*',token)): # int-const
+                #([-|+]?)
+        elif (re.search('^[-|+]?[0-9]+$',token)): # int-const
             print("INT_CONST", end="  ")
             print(token)
-        elif (re.search('([-|+]?)[0-9]([0-9])* .([0-9]*)',token)): # real const
+        elif (re.search('^[-|+]?[0-9]+\.[0-9]*$',token)): # real const
             print("REAL_CONST", end="  ")
             print(token)
-                #((-|+)?)[0-9]([0-9]*).([0-9]*)
         elif (token == '+' ):
             print("PLUS")
         elif (token == '-'):
@@ -115,8 +120,10 @@ def outputTokens(lineProcess):
             print("LEFT_PAREN")
         elif (token == ')'):
             print("RIGHT_PAREN")
-        #elif (token )
-            #token.endswith("'")
+        elif (token == '^'):
+            print("EXPONENT")
+        else:
+            print("Error, File does not match grammar.")
         #^
         # make sure that the ending token is no semi colon
 
@@ -143,7 +150,7 @@ def outputTokens(lineProcess):
 
 #main
 inputFile = checkValid()
-goThrough(inputFile)
+goThroughLine(inputFile)
 
 '''
 TO DO LIST:
