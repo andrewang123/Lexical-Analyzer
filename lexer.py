@@ -75,7 +75,7 @@ def createTokens(lineProcess, outputFile):
                 potentialToken = ""
             else: #it is a string
                 potentialToken += lineProcess[x] #add a space
-    #print(tokens)
+    print(tokens)
     checkSyntax(tokens, outputFile)
     return totalTokens
 
@@ -84,7 +84,9 @@ def createTokens(lineProcess, outputFile):
 #Returns: N/A
 def checkSyntax(tokens, outputFile):
     #Check for errors
+    lenOfToken = len(tokens)
     for token in tokens:
+    #for x in range(0, lenOfToken):
         #print(token)
         if (token == "="):
             outputFile.write("ASSIGN\n")
@@ -115,8 +117,14 @@ def checkSyntax(tokens, outputFile):
             outputFile.write("DIVIDE\n")
         elif (token == "PRINT"):
             outputFile.write("PRINT\n")
-        elif (" " in token): #token contains a space
-            outputFile.write("STRING:    ")
+            # re.search('^[a-z] ([ *]([a-z]*))*',token)
+            #" " in token and
+            #([\s*][\d*]([a-z]*))*
+            #re.search('^([a-z]|\s|\d)([\s*]|[\d*]|([a-z]*))*',token)
+            #" " in token and (not (re.findall('([A-Z])',token)))
+        elif (re.search('([a-z]|\d]|\s)+',token) and (not (re.findall('([A-Z])',token)))):
+            #no capital letters for the string
+            outputFile.write("STRING:   ")
             outputFile.write(token + "\n")
         elif (token == '('):
             outputFile.write("LEFT_PAREN  ")
@@ -126,6 +134,7 @@ def checkSyntax(tokens, outputFile):
             outputFile.write("EXPONENT  ")
         else:
             print("Error, File does not match grammar.")
+            print("\"" + token + "\""+ " is not in the grammar.")
             sys.exit()
         # make sure that the ending token is no semi colon
 

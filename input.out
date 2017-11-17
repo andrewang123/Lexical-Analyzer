@@ -13,7 +13,7 @@ PLUS
 ID    b   INTEGER
 SEMICOLON
 PRINT
-STRING:    The result is
+STRING:   the result is
 SEMICOLON
 PRINT
 ID    c   REAL
