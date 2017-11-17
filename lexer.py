@@ -12,8 +12,9 @@ import re
 #Parameters: N/A
 #Returns: the name of the inputfile
 def checkValid():
-    inputFile = input("prompt>  python lexer.py ")
-
+    inputFile = ""
+    if (len(sys.argv) > 1):
+        inputFile = sys.argv[1]
     #check if the file is valid
     if not os.path.exists(inputFile):
         print("Input File is invalid")

@@ -13,7 +13,3 @@ PLUS
 ID    b   INTEGER
 SEMICOLON
 PRINT
-STRING:   the result is
-SEMICOLON
-PRINT
-ID    c   REAL
