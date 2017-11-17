@@ -25,19 +25,19 @@ PLUS
 ID    tax   REAL
 SEMICOLON
 PRINT
-STRING:    the subtotal is 
+STRING:   the subtotal is 
 SEMICOLON
 PRINT
 ID    subtotal   REAL
 SEMICOLON
 PRINT
-STRING:    the tax is 
+STRING:   the tax is 
 SEMICOLON
 PRINT
 ID    tax   REAL
 SEMICOLON
 PRINT
-STRING:    total to pay is 
+STRING:   total to pay is 
 SEMICOLON
 PRINT
 ID    total   REAL

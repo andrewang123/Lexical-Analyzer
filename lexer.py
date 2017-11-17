@@ -21,6 +21,16 @@ def checkValid():
     print("Processing input file " + inputFile)
     return inputFile
 
+#Gets the total number of lines in the file
+#Parameters: inputFile, the name of the inputfile (string)
+#Returns: integer representing total number of lines
+def getTotalNumOfLines(inputFile):
+    numberOfLines = 0
+    with open(inputFile, 'r') as file:
+        for line in file:
+            numberOfLines += 1
+    return numberOfLines
+
 #Go through entire file
 #Parameters: inputFile refers to the string of the input file
 #Returns: N/A
@@ -28,21 +38,25 @@ def goThroughLine(inputFile):
     # open file using context manager dont need to close
     # closes by itself
     totalNumTokens = 0
+    totalNumOfLines = getTotalNumOfLines(inputFile)
     outputFileName = inputFile[:-4] + ".out"
+    currentLine = 1
     with open(inputFile, 'r') as file:
         outFile = open(outputFileName,'w')
         for line in file:
-            #print(file.read())
-            #fileContents = file.readline()
-            totalNumTokens += createTokens(line, outFile)
+            totalNumTokens += createTokens(line, outFile, totalNumOfLines, currentLine)
+            currentLine += 1
         print(str(totalNumTokens) + " tokens produced")
         print("Result in file " + outputFileName)
         outFile.close()
 
 #Passes each line of the file and processes it
-#Parameters: lineProcess which is the line being processed
+#Parameters: lineProcess which is the line being processed(string)
+#outputFile is the name of the output file
+#totalNumOfLines is thetotal number of lines in the file
+#currentLine is current line being processed in file
 #Returns: total tokens for that specific line
-def createTokens(lineProcess, outputFile):
+def createTokens(lineProcess, outputFile, totalNumOfLines, currentLine):
     lenOfString = len(lineProcess)
     potentialToken = "" #string to construct the token
     tokens = [] #create a list of tokens
@@ -75,70 +89,69 @@ def createTokens(lineProcess, outputFile):
                 potentialToken = ""
             else: #it is a string
                 potentialToken += lineProcess[x] #add a space
-    print(tokens)
-    checkSyntax(tokens, outputFile)
+    #print(tokens)
+    checkSyntax(tokens, outputFile, totalNumOfLines, currentLine)
     return totalTokens
 
 #Check if the tokens that are produced are part of the Rules
-#Parameters: tokens the list of tokens, name of the file
+#Parameters: tokens the list of tokens, name of output file,
+#totalNumOfLines is thetotal number of lines in the file
+#currentLine is current line being processed in file
 #Returns: N/A
-def checkSyntax(tokens, outputFile):
+def checkSyntax(token, outputFile, totalNumOfLines, currentLine):
     #Check for errors
-    lenOfToken = len(tokens)
-    for token in tokens:
-    #for x in range(0, lenOfToken):
+    lenOfToken = len(token)
+    #for token in tokens:
+    for x in range(0, lenOfToken):
         #print(token)
-        if (token == "="):
+        if (token[x] == "="):
             outputFile.write("ASSIGN\n")
-        elif (token == ";\n" or token == ";"):
+        elif (currentLine == totalNumOfLines and token[x] == ";"): #last line of file cannot have ";"
+            print("Error, File does not match grammar.")
+            print("Last line cannot end with ';'")
+            sys.exit()
+        elif (token[x] == ";\n" or token[x] == ";"):
             outputFile.write("SEMICOLON\n")
-        elif (re.search('^[a-z](([a-z]*)|([0-9]*))[$|#|%]$', token)): #RegEx for ID
+        elif (re.search('^[a-z](([a-z]*)|([0-9]*))[$|#|%]$', token[x])): #RegEx for ID
             outputFile.write("ID    ")
-            outputFile.write(token[:-1] + "   ") #everything except for the last
-            if(token.endswith("$")):
+            outputFile.write(token[x][:-1] + "   ") #everything except for the last
+            if(token[x].endswith("$")):
                 outputFile.write("STRING\n")
-            elif(token.endswith("#")):
+            elif(token[x].endswith("#")):
                 outputFile.write("INTEGER\n")
-            elif(token.endswith("%")):
+            elif(token[x].endswith("%")):
                 outputFile.write("REAL\n")
-        elif (re.search('^[-|+]?[0-9]+$',token)): # int-const
+        elif (re.search('^[-|+]?[0-9]+$',token[x])): # int-const
             outputFile.write("INT_CONST   ")
-            outputFile.write(token + "\n")
-        elif (re.search('^[-|+]?[0-9]+\.[0-9]*$',token)): # real-const
+            outputFile.write(token[x] + "\n")
+        elif (re.search('^[-|+]?[0-9]+\.[0-9]*$',token[x])): # real-const
             outputFile.write("REAL_CONST  ")
-            outputFile.write(token + "\n")
-        elif (token == '+' ):
+            outputFile.write(token[x] + "\n")
+        elif (token[x] == '+' ):
             outputFile.write("PLUS\n")
-        elif (token == '-'):
+        elif (token[x] == '-'):
             outputFile.write("MINUS\n")
-        elif (token == '*'):
+        elif (token[x] == '*'):
             outputFile.write("TIMES\n")
-        elif (token == '/'):
+        elif (token[x] == '/'):
             outputFile.write("DIVIDE\n")
-        elif (token == "PRINT"):
+        elif (token[x] == "PRINT"):
             outputFile.write("PRINT\n")
-            # re.search('^[a-z] ([ *]([a-z]*))*',token)
-            #" " in token and
-            #([\s*][\d*]([a-z]*))*
-            #re.search('^([a-z]|\s|\d)([\s*]|[\d*]|([a-z]*))*',token)
-            #" " in token and (not (re.findall('([A-Z])',token)))
-        elif (re.search('([a-z]|\d]|\s)+',token) and (not (re.findall('([A-Z])',token)))):
+        elif (re.search('([a-z]|\d]|\s)+',token[x]) and (not (re.findall('([A-Z])',token[x])))):
             #no capital letters for the string
             outputFile.write("STRING:   ")
-            outputFile.write(token + "\n")
-        elif (token == '('):
+            outputFile.write(token[x] + "\n")
+        elif (token[x] == '('):
             outputFile.write("LEFT_PAREN  ")
-        elif (token == ')'):
+        elif (token[x] == ')'):
             outputFile.write("RIGHT_PAREN  ")
-        elif (token == '^'):
+        elif (token[x] == '^'):
             outputFile.write("EXPONENT  ")
         else:
             print("Error, File does not match grammar.")
-            print("\"" + token + "\""+ " is not in the grammar.")
+            print("\"" + token[x] + "\""+ " is not in the grammar.")
             sys.exit()
-        # make sure that the ending token is no semi colon
 
-        #if there are any string left in the list produce an error
 #main
 inputFile = checkValid()
 goThroughLine(inputFile)
