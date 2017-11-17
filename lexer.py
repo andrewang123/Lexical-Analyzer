@@ -156,8 +156,3 @@ def checkSyntax(token, outputFile, totalNumOfLines, currentLine):
 inputFile = checkValid()
 goThroughLine(inputFile)
 
-'''
-TO DO LIST:
-2. output into output file
-3. make so works in terminal
-'''
