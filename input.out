@@ -13,7 +13,9 @@ PLUS
 ID    b   INTEGER
 SEMICOLON
 PRINT
-STRING:   the result is
+QUOTE
+STRING:    the result is 
+QUOTE
 SEMICOLON
 PRINT
 ID    c   REAL

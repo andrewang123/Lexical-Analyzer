@@ -21,10 +21,14 @@ ID    newname   REAL
 RIGHT_PAREN
 SEMICOLON
 PRINT
+QUOTE
 STRING:   this is a very  123 123     very long
+QUOTE
 SEMICOLON
 PRINT
 ID    csisawesomenum   REAL
 SEMICOLON
 PRINT
+QUOTE
 STRING:   last line
+QUOTE

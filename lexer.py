@@ -14,7 +14,7 @@ import re
 def checkValid():
     inputFile = ""
     if (len(sys.argv) > 1):
-        inputFile = sys.argv[1]
+       inputFile = sys.argv[1]
     #check if the file is valid
     if not os.path.exists(inputFile):
         print("Input File is invalid")
@@ -62,32 +62,47 @@ def createTokens(lineProcess, outputFile, totalNumOfLines, currentLine):
     isString = False; #check for strings ex) "The result is"
     seenQuotation = 0
     totalTokens = 0
+    specialCase = True
     for x in range(0, lenOfString): #check char by char
         #print(lineProcess[x])
         if(lineProcess[x] != " "):
             if(lineProcess[x] == "\""): #check for '"'
+
+                if(not isString):
+                    tokens.append(lineProcess[x])
+                    totalTokens += 1
                 isString = True
                 seenQuotation += 1
                 if (seenQuotation == 2):
                     isString = False
                     seenQuotation = 0
+                    tokens.append(potentialToken)
+                    potentialToken = ""
+                    tokens.append(lineProcess[x])
+                    totalTokens += 2
+                    specialCase = False
             else:
                 potentialToken += lineProcess[x]
             #account for last character in line
             if (x == lenOfString - 1):
-                tokens.append(potentialToken)
-                totalTokens += 1
-                # change potentialToken to empty
-                potentialToken = ""
+                # account for last line
+                if(totalNumOfLines != currentLine or potentialToken != ""):
+                    tokens.append(potentialToken)
+                    totalTokens += 1
+                    # change potentialToken to empty
+                    potentialToken = ""
         else: # There is a space
             if (not(isString)): #not a string
                  # add it to the list
-                tokens.append(potentialToken)
-                totalTokens += 1
+                 if(specialCase): #make sure that empty string is not added to list
+                    tokens.append(potentialToken)
+                    totalTokens += 1
                 # change potentialToken to empty
-                potentialToken = ""
+                    potentialToken = ""
+                    specialCase = True
             else: #it is a string
                 potentialToken += lineProcess[x] #adds a space
+    print(tokens)
     checkToken(tokens, outputFile, totalNumOfLines, currentLine)
     return totalTokens
 

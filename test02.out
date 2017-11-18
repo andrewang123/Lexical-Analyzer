@@ -1,6 +1,8 @@
 ID    datruth   STRING
 ASSIGN
+QUOTE
 STRING:   i am learning a lot in this class
+QUOTE
 SEMICOLON
 ID    negative   INTEGER
 ASSIGN
