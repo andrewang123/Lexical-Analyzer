@@ -62,7 +62,8 @@ def createTokens(lineProcess, outputFile, totalNumOfLines, currentLine):
     isString = False; #check for strings ex) "The result is"
     seenQuotation = 0
     totalTokens = 0
-    specialCase = True
+    # variable to make sure that last line ending w/ " works
+    specialCase = True #ex) PRINT "last line"
     for x in range(0, lenOfString): #check char by char
         #print(lineProcess[x])
         if(lineProcess[x] != " "):
@@ -102,7 +103,6 @@ def createTokens(lineProcess, outputFile, totalNumOfLines, currentLine):
                     specialCase = True
             else: #it is a string
                 potentialToken += lineProcess[x] #adds a space
-    print(tokens)
     checkToken(tokens, outputFile, totalNumOfLines, currentLine)
     return totalTokens
 
