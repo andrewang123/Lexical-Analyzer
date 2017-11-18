@@ -36,8 +36,6 @@ def getTotalNumOfLines(inputFile):
 #Parameters: inputFile refers to the string of the input file
 #Returns: N/A
 def goThroughLine(inputFile):
-    # open file using context manager dont need to close
-    # closes by itself
     totalNumTokens = 0
     totalNumOfLines = getTotalNumOfLines(inputFile)
     outputFileName = inputFile[:-4] + ".out"
@@ -53,9 +51,9 @@ def goThroughLine(inputFile):
 
 #Passes each line of the file and processes it
 #Parameters: lineProcess which is the line being processed(string)
-#outputFile is the name of the output file
-#totalNumOfLines is thetotal number of lines in the file
-#currentLine is current line being processed in file
+#            outputFile is the name of the output file
+#            totalNumOfLines is thetotal number of lines in the file
+#            currentLine is current line being processed in file
 #Returns: total tokens for that specific line
 def createTokens(lineProcess, outputFile, totalNumOfLines, currentLine):
     lenOfString = len(lineProcess)
@@ -89,8 +87,7 @@ def createTokens(lineProcess, outputFile, totalNumOfLines, currentLine):
                 # change potentialToken to empty
                 potentialToken = ""
             else: #it is a string
-                potentialToken += lineProcess[x] #add a space
-    #print(tokens)
+                potentialToken += lineProcess[x] #adds a space
     checkSyntax(tokens, outputFile, totalNumOfLines, currentLine)
     return totalTokens
 
@@ -102,12 +99,14 @@ def createTokens(lineProcess, outputFile, totalNumOfLines, currentLine):
 def checkSyntax(token, outputFile, totalNumOfLines, currentLine):
     #Check for errors
     lenOfToken = len(token)
-    #for token in tokens:
     for x in range(0, lenOfToken):
-        #print(token)
         if (token[x] == "="):
             outputFile.write("ASSIGN\n")
         elif (currentLine == totalNumOfLines and token[x] == ";"): #last line of file cannot have ";"
+            print("Error, File does not match grammar.")
+            print("Last line cannot end with ';'")
+            sys.exit()
+        elif (currentLine != totalNumOfLines and token[x] != ";"):
             print("Error, File does not match grammar.")
             print("Last line cannot end with ';'")
             sys.exit()
@@ -138,8 +137,7 @@ def checkSyntax(token, outputFile, totalNumOfLines, currentLine):
             outputFile.write("DIVIDE\n")
         elif (token[x] == "PRINT"):
             outputFile.write("PRINT\n")
-        elif (re.search('([a-z]|\d]|\s)+',token[x]) and (not (re.findall('([A-Z])',token[x])))):
-            #no capital letters for the string
+        elif (re.search('^([a-z]|\d|\s)+$',token[x])): #string must lowercase letter, digit or space
             outputFile.write("STRING:   ")
             outputFile.write(token[x] + "\n")
         elif (token[x] == '('):
