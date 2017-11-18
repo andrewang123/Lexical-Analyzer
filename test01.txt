@@ -1,0 +1,7 @@
+csisawesomenum% = 555.5123 ;
+one1two2three3# = 13 ;
+cha% = csisawesomenum% + one1two2three3# ;
+cha% = ( newname% ^ newname% ) ;
+PRINT "this is a very  123 123     very long" ;
+PRINT csisawesomenum% ;
+PRINT "last line"

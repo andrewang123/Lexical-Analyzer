@@ -57,7 +57,7 @@ def goThroughLine(inputFile):
 #Returns: total tokens for that specific line
 def createTokens(lineProcess, outputFile, totalNumOfLines, currentLine):
     lenOfString = len(lineProcess)
-    potentialToken = "" #string to construct the token
+    potentialToken = "" #string to construct the potential token
     tokens = [] #create a list of tokens
     isString = False; #check for strings ex) "The result is"
     seenQuotation = 0
@@ -88,7 +88,7 @@ def createTokens(lineProcess, outputFile, totalNumOfLines, currentLine):
                 potentialToken = ""
             else: #it is a string
                 potentialToken += lineProcess[x] #adds a space
-    checkSyntax(tokens, outputFile, totalNumOfLines, currentLine)
+    checkToken(tokens, outputFile, totalNumOfLines, currentLine)
     return totalTokens
 
 #Check if the tokens that are produced are part of the Rules
@@ -96,7 +96,7 @@ def createTokens(lineProcess, outputFile, totalNumOfLines, currentLine):
 #totalNumOfLines is thetotal number of lines in the file
 #currentLine is current line being processed in file
 #Returns: N/A
-def checkSyntax(token, outputFile, totalNumOfLines, currentLine):
+def checkToken(token, outputFile, totalNumOfLines, currentLine):
     #Check for errors
     lenOfToken = len(token)
     for x in range(0, lenOfToken):
@@ -106,13 +106,9 @@ def checkSyntax(token, outputFile, totalNumOfLines, currentLine):
             print("Error, File does not match grammar.")
             print("Last line cannot end with ';'")
             sys.exit()
-        elif (currentLine != totalNumOfLines and token[x] != ";"):
-            print("Error, File does not match grammar.")
-            print("Last line cannot end with ';'")
-            sys.exit()
         elif (token[x] == ";\n" or token[x] == ";"):
             outputFile.write("SEMICOLON\n")
-        elif (re.search('^[a-z](([a-z]*)|([0-9]*))[$|#|%]$', token[x])): #RegEx for ID
+        elif (re.search('^[a-z](([a-z]|[0-9])*)[$|#|%]$', token[x])): #RegEx for ID
             outputFile.write("ID    ")
             outputFile.write(token[x][:-1] + "   ") #everything except for the last
             if(token[x].endswith("$")):
@@ -127,6 +123,12 @@ def checkSyntax(token, outputFile, totalNumOfLines, currentLine):
         elif (re.search('^[-|+]?[0-9]+\.[0-9]*$',token[x])): # real-const
             outputFile.write("REAL_CONST  ")
             outputFile.write(token[x] + "\n")
+        elif (token[x] == '('):
+            outputFile.write("LEFT_PAREN\n")
+        elif (token[x] == ')'):
+            outputFile.write("RIGHT_PAREN\n")
+        elif (token[x] == '^'):
+            outputFile.write("EXPONENT\n")
         elif (token[x] == '+' ):
             outputFile.write("PLUS\n")
         elif (token[x] == '-'):
@@ -140,12 +142,8 @@ def checkSyntax(token, outputFile, totalNumOfLines, currentLine):
         elif (re.search('^([a-z]|\d|\s)+$',token[x])): #string must lowercase letter, digit or space
             outputFile.write("STRING:   ")
             outputFile.write(token[x] + "\n")
-        elif (token[x] == '('):
-            outputFile.write("LEFT_PAREN  ")
-        elif (token[x] == ')'):
-            outputFile.write("RIGHT_PAREN  ")
-        elif (token[x] == '^'):
-            outputFile.write("EXPONENT  ")
+        elif (token[x] == "\""):
+            outputFile.write("QUOTE\n")
         else:
             print("Error, File does not match grammar.")
             print("\"" + token[x] + "\""+ " is not in the grammar.")

@@ -1,0 +1,18 @@
+ID    datruth   STRING
+ASSIGN
+STRING:   i am learning a lot in this class
+SEMICOLON
+ID    negative   INTEGER
+ASSIGN
+INT_CONST   -123123123
+SEMICOLON
+ID    something   REAL
+ASSIGN
+REAL_CONST  +12.2020202
+SEMICOLON
+PRINT
+ID    negative   INTEGER
+SEMICOLON
+ID    test   INTEGER
+ASSIGN
+REAL_CONST  133.

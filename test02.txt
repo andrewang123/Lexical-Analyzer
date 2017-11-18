@@ -1,0 +1,5 @@
+datruth$ = "i am learning a lot in this class" ;
+negative# = -123123123 ;
+something% = +12.2020202 ;
+PRINT negative# ;
+test# = 133.

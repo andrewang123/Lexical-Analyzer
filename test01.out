@@ -1,0 +1,30 @@
+ID    csisawesomenum   REAL
+ASSIGN
+REAL_CONST  555.5123
+SEMICOLON
+ID    one1two2three3   INTEGER
+ASSIGN
+INT_CONST   13
+SEMICOLON
+ID    cha   REAL
+ASSIGN
+ID    csisawesomenum   REAL
+PLUS
+ID    one1two2three3   INTEGER
+SEMICOLON
+ID    cha   REAL
+ASSIGN
+LEFT_PAREN
+ID    newname   REAL
+EXPONENT
+ID    newname   REAL
+RIGHT_PAREN
+SEMICOLON
+PRINT
+STRING:   this is a very  123 123     very long
+SEMICOLON
+PRINT
+ID    csisawesomenum   REAL
+SEMICOLON
+PRINT
+STRING:   last line
